@@ -1,0 +1,16 @@
+PATH
+  remote: .
+  specs:
+    gabba (0.0.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    minitest (2.0.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  gabba!
+  minitest
