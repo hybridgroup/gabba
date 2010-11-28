@@ -56,7 +56,7 @@ module Gabba
       }
     end
     
-    def event_params(category, action, label = nil, value = nil)
+    def event_params(category, action, label = nil, value = nil, utmhid = rand(8999999999) + 1000000000)
       {
         :utmwv => @utmwv,
         :utmn => @utmn,
