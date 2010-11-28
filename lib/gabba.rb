@@ -1,5 +1,5 @@
 # yo, easy server-side tracking for Google Analytics... hey!
-require 'uri'
+require "open-uri"
 
 module Gabba
   class NoGoogleAnalyticsAccountError < RuntimeError; end
@@ -8,10 +8,11 @@ module Gabba
   class Gabba
     BEACON_URL = "http://www.google-analytics.com/__utm.gif"
     TRACKING_URL = "http://www.google-analytics.com/ga.js"
-
-    attr_accessor :utmwv, :utmn, :utmhn, :utmcs, :utmul, :utmdt, :utmp, :utmac, :utmt, :utmcc
+    USER_AGENT = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7 (.NET CLR 3.5.30729)"
     
-    def initialize(ga_acct, domain)
+    attr_accessor :utmwv, :utmn, :utmhn, :utmcs, :utmul, :utmdt, :utmp, :utmac, :utmt, :utmcc, :user_agent
+    
+    def initialize(ga_acct, domain, user_agent = USER_AGENT)
       @utmwv = "4.3" # GA version
       @utmcs = "UTF-8" # charset
       @utmul = "en-us" # language
@@ -21,6 +22,7 @@ module Gabba
       
       @utmac = ga_acct
       @utmhn = domain
+      @user_agent = user_agent
     end
   
     def page_view(title, page, utmhid = rand(8999999999) + 1000000000)
@@ -78,8 +80,10 @@ module Gabba
     end
 
     # makes the tracking call to Google Analytics
-    def self.hey(params)
-      hash_to_querystring(params)
+    def self.hey(params, referer = "-")
+      open("#{BEACON_URL}?hash_to_querystring(params)",
+           "User-Agent" => @user_agent,
+           "Referer" => referer)
     end
     
     def self.hash_to_querystring(hash = {})

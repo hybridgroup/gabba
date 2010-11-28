@@ -1,5 +1,7 @@
 == Simple class to send custom server-side events to Google Analytics
 
+Heavily influenced by the http://code.google.com/p/serversidegoogleanalytics
+
 HOW TO USE:
 
 - Track page views

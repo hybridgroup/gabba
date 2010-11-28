@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name        = "gabba"
   s.version     = Gabba::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
+  s.authors     = ["Ron Evans"]
+  s.email       = ["ron dot evans at gmail dot com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Easy server-side tracking for Google Analytics}
+  s.description = %q{Easy server-side tracking for Google Analytics}
 
   s.rubyforge_project = "gabba"
 
