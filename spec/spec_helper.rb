@@ -3,4 +3,4 @@ gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
 
-require File.dirname(__FILE__) + '/../lib/gabba'
+require File.dirname(__FILE__) + '/../lib/gabba/gabba'

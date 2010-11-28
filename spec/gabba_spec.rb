@@ -20,7 +20,7 @@ describe Gabba::Gabba do
     end
 
     it "must be able to create hash of page_view_params" do
-      Gabba::Gabba.hash_to_querystring(@gabba.page_view_params("hiya", "/tracker/page")).wont_be_nil
+      @gabba.hash_to_querystring(@gabba.page_view_params("hiya", "/tracker/page")).wont_be_nil
     end
   end
 
