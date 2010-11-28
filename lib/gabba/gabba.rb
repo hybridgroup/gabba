@@ -94,7 +94,7 @@ module Gabba
       res = Net::HTTP.start(uri.host, uri.port) do |http|
         http.request(req)
       end
-      raise GoogleAnalyticsNetworkError unless res.code == 200
+      raise GoogleAnalyticsNetworkError unless res.code == "200"
     end
     
     # convert params hash to query string
