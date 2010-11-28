@@ -1,1 +1,10 @@
-Simple class to send custom events to Google Analytics
+== Simple class to send custom server-side events to Google Analytics
+
+HOW TO USE:
+
+- Track page views
+Gabba::Gabba.new("UT-1234", "mydomain.com").page_view("something", "track/me")
+
+- Track custom events
+Gabba::Gabba.new("UT-1234", "mydomain.com").event("Videos", "Play", "ID", "123")
+
