@@ -6,7 +6,12 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
+    addressable (2.2.2)
+    crack (0.1.8)
     minitest (2.0.0)
+    webmock (1.6.1)
+      addressable (>= 2.2.2)
+      crack (>= 0.1.7)
 
 PLATFORMS
   ruby
@@ -14,3 +19,4 @@ PLATFORMS
 DEPENDENCIES
   gabba!
   minitest
+  webmock
