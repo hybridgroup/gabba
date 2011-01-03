@@ -44,7 +44,11 @@ describe Gabba::Gabba do
     end
     
     it "must be able to create event data" do
-      @gabba.event_data("cat1", "act1", "lab1", "val1").wont_be_nil
+      @gabba.event_data("cat1", "act1", "lab1", "val1").must_equal("5(cat1*act1*lab1)(val1)")
+    end
+
+    it "must be able to create event data with only category and action" do
+      @gabba.event_data("cat1", "act1").must_equal("5(cat1*act1)")
     end
     
     it "must do event request to google" do

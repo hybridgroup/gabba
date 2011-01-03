@@ -71,8 +71,9 @@ module Gabba
     end
 
     def event_data(category, action, label = nil, value = nil)
-      data = "5(#{category}*action" + (label ? "*#{label})" : ")")
+      data = "5(#{category}*#{action}" + (label ? "*#{label})" : ")")
       data += "(#{value})" if value
+      data
     end
   
     # create magical cookie params used by GA for its own nefarious purposes
