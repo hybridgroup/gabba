@@ -22,25 +22,20 @@ module Gabba
       @utmcs = "UTF-8" # charset
       @utmul = "en-us" # language
        
-      @utmn = rand(8999999999) + 1000000000
-      @utmhid = rand(8999999999) + 1000000000
+      @utmn = random_id
+      @utmhid = random_id
       
       @utmac = ga_acct
       @utmhn = domain
       @user_agent = agent
     end
   
-    def page_view(title, page, utmhid = rand(8999999999) + 1000000000)
+    def page_view(title, page, utmhid = random_id)
       check_account_params
       hey(page_view_params(title, page, utmhid))
     end
-  
-    def event(category, action, label = nil, value = nil, utmhid = rand(8999999999) + 1000000000)
-      check_account_params
-      hey(event_params(category, action, label, value, utmhid))
-    end
-    
-    def page_view_params(title, page, utmhid = rand(8999999999) + 1000000000)
+
+    def page_view_params(title, page, utmhid)
       {
         :utmwv => @utmwv,
         :utmn => @utmn,
@@ -54,8 +49,13 @@ module Gabba
         :utmcc => @utmcc || cookie_params
       }
     end
-    
-    def event_params(category, action, label = nil, value = nil, utmhid = rand(8999999999) + 1000000000)
+  
+    def event(category, action, label = nil, value = nil, utmhid = random_id)
+      check_account_params
+      hey(event_params(category, action, label, value, utmhid))
+    end
+
+    def event_params(category, action, label = nil, value = nil, utmhid = nil)
       {
         :utmwv => @utmwv,
         :utmn => @utmn,
@@ -75,9 +75,58 @@ module Gabba
       data += "(#{value})" if value
       data
     end
+    
+    def transaction()
+      
+    end
+
+    def transaction_params()
+      {
+        :utmwv => @utmwv,
+        :utmn => @utmn,
+        :utmhn => @utmhn,
+        :utmt => 'transaction',
+        :utmcs => @utmcs,
+        :utmul => @utmul,
+        :utmhid => utmhid,
+        :utmac => @utmac,
+        :utmcc => @utmcc || cookie_params
+      }
+    end
+    
+    def add_item(order_id, item_sku, price, quantity, name = nil, category = nil, utmhid = random_id)
+      check_account_params
+      hey(item_params(order_id, item_sku, name, category, price, quantity, utmhid))
+    end
+    
+    def item_params(order_id, item_sku, name, category, price, quantity, utmhid)
+      # '1234',           // utmtid URL-encoded order ID - required
+      # 'DD44',           // utmipc SKU/code - required
+      # 'T-Shirt',        // utmipn product name
+      # 'Green Medium',   // utmiva category or variation
+      # '11.99',          // utmipr unit price - required
+      # '1'               // utmiqt quantity - required
+      {
+        :utmwv => @utmwv,
+        :utmn => @utmn,
+        :utmhn => @utmhn,
+        :utmt => 'transaction',
+        :utmcs => @utmcs,
+        :utmul => @utmul,
+        :utmhid => utmhid,
+        :utmac => @utmac,
+        :utmcc => @utmcc || cookie_params,
+        :utmtid => order_id,
+        :utmipc => item_sku,
+        :utmipn => name,
+        :utmiva => category,
+        :utmipr => price,
+        :utmiqt => quantity
+      }
+    end
   
     # create magical cookie params used by GA for its own nefarious purposes
-    def cookie_params(utma1 = rand(89999999) + 10000000, utma2 = rand(1147483647) + 1000000000, today = Time.now)
+    def cookie_params(utma1 = random_id, utma2 = rand(1147483647) + 1000000000, today = Time.now)
       "__utma=1.#{utma1}00145214523.#{utma2}.#{today.to_i}.#{today.to_i}.15;+__utmz=1.#{today.to_i}.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none);"
     end
 
@@ -100,6 +149,11 @@ module Gabba
       raise GoogleAnalyticsNetworkError unless response.code == "200"
       response
     end
-  end
+
+    def random_id
+      rand 8999999999 + 1000000000
+    end
+    
+  end # Gabba Class
 
 end
