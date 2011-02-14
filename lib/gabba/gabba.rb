@@ -76,11 +76,20 @@ module Gabba
       data
     end
     
-    def transaction()
-      
+    def transaction(order_id, total, store_name = nil, tax = nil, shipping = nil, city = nil, region = nil, country = nil, utmhid = random_id)
+      check_account_params
+      hey(transaction_params(order_id, total, store_name, tax, shipping, city, region, country, utmhid))
     end
 
-    def transaction_params()
+    def transaction_params(order_id, total, store_name, tax, shipping, city, region, country, utmhid)
+      # '1234',           // utmtid URL-encoded order ID - required
+      # 'Acme Clothing',  // utmtst affiliation or store name
+      # '11.99',          // utmtto total - required
+      # '1.29',           // utmttx tax
+      # '5',              // utmtsp shipping
+      # 'San Jose',       // utmtci city
+      # 'California',     // utmtrg state or province
+      # 'USA'             // utmtco country
       {
         :utmwv => @utmwv,
         :utmn => @utmn,
@@ -90,7 +99,14 @@ module Gabba
         :utmul => @utmul,
         :utmhid => utmhid,
         :utmac => @utmac,
-        :utmcc => @utmcc || cookie_params
+        :utmcc => @utmcc || cookie_params,
+        :utmtst => store_name,
+        :utmtto => total,
+        :utmttx => tax,
+        :utmtsp => shipping,
+        :utmtci => city,
+        :utmtrg => region,
+        :utmtco => country
       }
     end
     
@@ -110,7 +126,7 @@ module Gabba
         :utmwv => @utmwv,
         :utmn => @utmn,
         :utmhn => @utmhn,
-        :utmt => 'transaction',
+        :utmt => 'item',
         :utmcs => @utmcs,
         :utmul => @utmul,
         :utmhid => utmhid,
