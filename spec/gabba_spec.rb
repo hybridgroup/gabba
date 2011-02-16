@@ -56,6 +56,48 @@ describe Gabba::Gabba do
     end
 
   end
+  
+  describe "when tracking an item" do
+    before do
+      @gabba = Gabba::Gabba.new("abc", "123")
+      @gabba.utmn = "1009731272"
+      @gabba.utmcc = ''
+      stub_analytics @gabba.item_params("orderid", "1234", "widget", "widgets", "9.99", "1", "6783939397")
+    end
+    
+    it "must require GA account" do
+      lambda {Gabba::Gabba.new(nil, nil).add_item("orderid", "1234", "widget", "widgets", "9.99", "1", "6783939397")}.must_raise(Gabba::NoGoogleAnalyticsAccountError)
+    end
+
+    it "must require GA domain" do
+      lambda {Gabba::Gabba.new("abs", nil).add_item("orderid", "1234", "widget", "widgets", "9.99", "1", "6783939397")}.must_raise(Gabba::NoGoogleAnalyticsDomainError)
+    end
+    
+    it "must do add item request to google" do
+      @gabba.add_item("orderid", "1234", "widget", "widgets", "9.99", "1", "6783939397").code.must_equal("200")
+    end
+  end
+  
+  describe "when tracking a transaction" do
+    before do
+      @gabba = Gabba::Gabba.new("abc", "123")
+      @gabba.utmn = "1009731272"
+      @gabba.utmcc = ''
+      stub_analytics @gabba.transaction_params("orderid", "9.99", "acme stores", ".25", "1.00", "San Jose", "CA", "United States", "6783939397")
+    end
+    
+    it "must require GA account" do
+      lambda {Gabba::Gabba.new(nil, nil).transaction("orderid", "9.99", "acme stores", ".25", "1.00", "San Jose", "CA", "United States", "6783939397")}.must_raise(Gabba::NoGoogleAnalyticsAccountError)
+    end
+
+    it "must require GA domain" do
+      lambda {Gabba::Gabba.new("abs", nil).transaction("orderid", "9.99", "acme stores", ".25", "1.00", "San Jose", "CA", "United States", "6783939397")}.must_raise(Gabba::NoGoogleAnalyticsDomainError)
+    end
+    
+    it "must do transaction request to google" do
+      @gabba.transaction("orderid", "9.99", "acme stores", ".25", "1.00", "San Jose", "CA", "United States", "6783939397").code.must_equal("200")
+    end
+  end
 
   def stub_analytics(expected_params)
     s = stub_request(:get, /www.google-analytics.com\/__utm.gif\?utmac=#{expected_params[:utmac]}&.*/).
