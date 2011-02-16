@@ -100,6 +100,7 @@ module Gabba
         :utmhid => utmhid,
         :utmac => @utmac,
         :utmcc => @utmcc || cookie_params,
+        :utmtid => order_id,
         :utmtst => store_name,
         :utmtto => total,
         :utmttx => tax,
