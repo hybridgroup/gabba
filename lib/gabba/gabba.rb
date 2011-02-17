@@ -94,7 +94,7 @@ module Gabba
         :utmwv => @utmwv,
         :utmn => @utmn,
         :utmhn => @utmhn,
-        :utmt => 'transaction',
+        :utmt => 'tran',
         :utmcs => @utmcs,
         :utmul => @utmul,
         :utmhid => utmhid,
