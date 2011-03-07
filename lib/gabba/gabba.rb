@@ -155,7 +155,7 @@ module Gabba
 
     # makes the tracking call to Google Analytics
     def hey(params)
-      query = params.map {|k,v| "#{k}=#{CGI.escape(v.to_s)}" }.join('&')
+      query = params.map {|k,v| "#{k}=#{URI.escape(v.to_s, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))}" }.join('&')
       response = Net::HTTP.start(GOOGLE_HOST) do |http|
         request = Net::HTTP::Get.new("#{BEACON_PATH}?#{query}")
         request["User-Agent"] = URI.escape(user_agent)
@@ -170,7 +170,7 @@ module Gabba
     def random_id
       rand 8999999999 + 1000000000
     end
-    
+        
   end # Gabba Class
 
 end
