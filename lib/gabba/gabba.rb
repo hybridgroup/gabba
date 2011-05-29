@@ -35,7 +35,7 @@ module Gabba
       hey(page_view_params(title, page, utmhid))
     end
 
-    def page_view_params(title, page, utmhid)
+    def page_view_params(title, page, utmhid = random_id)
       {
         :utmwv => @utmwv,
         :utmn => @utmn,
