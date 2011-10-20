@@ -108,7 +108,7 @@ describe Gabba::Gabba do
     
     it "must return data for a valid var" do
       @gabba.set_custom_var 1, 'A (B*\'!)', 'Yes', Gabba::Gabba::SESSION
-      @gabba.custom_var_data.must_equal "8(A%20(B'2'0'1'3)9(Yes)11(2)"
+      @gabba.custom_var_data.must_equal "8(A (B'2'0'1'3)9(Yes)11(2)"
     end
     
     it "must return data for several valid vards" do
