@@ -1,12 +1,42 @@
-== Simple class to send custom server-side events to Google Analytics
+Simple class to send custom server-side events to Google Analytics
+==================================================================
 
 Heavily influenced by the http://code.google.com/p/serversidegoogleanalytics
 
 HOW TO USE:
+-----------
 
 - Track page views
 Gabba::Gabba.new("UT-1234", "mydomain.com").page_view("something", "track/me")
 
 - Track custom events
 Gabba::Gabba.new("UT-1234", "mydomain.com").event("Videos", "Play", "ID", "123")
+             
 
+IN THIS FORK:
+-------------
+
+* Setting custom vars
+
+        # Index: 1 through 5
+        index = 1
+        
+        # Scope: VISITOR, SESSION or PAGE
+        scope = Gabba::Gabba::VISITOR
+        
+        # Set var
+        gabba.set_custom_var(index, 'Name', 'Value', scope)
+        
+        # Track the event (all vars will be included)
+        gabba.event(...)
+        
+        # Track the page view (all vars will be included)
+        gabba.page_view(...)
+
+* Removing custom vars
+
+        # Index: 1 through 5
+        index = 1
+
+        # Delete var with this index
+        gabba.delete_custom_var index

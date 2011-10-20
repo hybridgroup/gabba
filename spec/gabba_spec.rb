@@ -99,6 +99,67 @@ describe Gabba::Gabba do
     end
   end
 
+  describe "setting a custom var" do
+    before do
+      @gabba = Gabba::Gabba.new("abc", "123")
+      @gabba.utmn = "1009731272"
+      @gabba.utmcc = ''
+    end
+    
+    it "must return data for a valid var" do
+      @gabba.set_custom_var 1, 'A (B*\'!)', 'Yes', Gabba::Gabba::SESSION
+      @gabba.custom_var_data.must_equal "8(A%20(B'2'0'1'3)9(Yes)11(2)"
+    end
+    
+    it "must return data for several valid vards" do
+      @gabba.set_custom_var 1, 'A', 'Yes', Gabba::Gabba::SESSION
+      @gabba.set_custom_var 2, 'B', 'No', Gabba::Gabba::VISITOR
+      @gabba.custom_var_data.must_equal "8(A*B)9(Yes*No)11(2*1)"
+    end
+    
+    it "must return an empty string if vars aren't set" do
+      @gabba.custom_var_data.must_equal ""
+    end
+    
+    it "must not include var with an empty value" do
+      @gabba.set_custom_var 1, 'A', 'Yes', Gabba::Gabba::SESSION
+      @gabba.set_custom_var 2, 'B', '',    Gabba::Gabba::VISITOR
+      @gabba.set_custom_var 3, 'C', ' ',   Gabba::Gabba::VISITOR
+      @gabba.set_custom_var 4, 'D', nil,   Gabba::Gabba::VISITOR
+      @gabba.custom_var_data.must_equal "8(A)9(Yes)11(2)"
+    end
+    
+    it "must mention index of the var if non sequential" do
+      @gabba.set_custom_var 2, 'A', 'Y', Gabba::Gabba::SESSION
+      @gabba.set_custom_var 4, 'D', 'N', Gabba::Gabba::VISITOR
+      @gabba.custom_var_data.must_equal "8(2!A*4!D)9(2!Y*4!N)11(2!2*4!1)"
+    end
+    
+    it "must raise an error if index is outside the 1-5 (incl) range" do
+      lambda { @gabba.set_custom_var(0, 'A', 'B', 1) }.must_raise(RuntimeError)
+      lambda { @gabba.set_custom_var(6, 'A', 'B', 1) }.must_raise(RuntimeError)
+    end
+    
+    it "must raise an error if scope is outside the 1-3 (incl) range" do
+      lambda { @gabba.set_custom_var(1, 'A', 'B', 0) }.must_raise(RuntimeError)
+      lambda { @gabba.set_custom_var(1, 'A', 'B', 4) }.must_raise(RuntimeError)
+    end
+  end
+
+  describe 'delete custom var' do
+    before do
+      @gabba = Gabba::Gabba.new("abc", "123")
+      @gabba.utmn = "1009731272"
+      @gabba.utmcc = ''
+    end
+    
+    it "must return data for a valid var" do
+      @gabba.set_custom_var 1, 'A (B*\'!)', 'Yes', Gabba::Gabba::SESSION
+      @gabba.delete_custom_var 1
+      @gabba.custom_var_data.must_equal ""
+    end
+  end
+  
   def stub_analytics(expected_params)
     s = stub_request(:get, /www.google-analytics.com\/__utm.gif\?utmac=#{expected_params[:utmac]}&.*/).
           to_return(:status => 200, :body => "", :headers => {})

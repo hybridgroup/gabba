@@ -14,6 +14,13 @@ module Gabba
     GOOGLE_HOST = "www.google-analytics.com"
     BEACON_PATH = "/__utm.gif"
     USER_AGENT = "Gabba #{VERSION} Agent"
+
+    # Custom var levels
+    VISITOR = 1
+    SESSION = 2
+    PAGE    = 3
+
+    ESCAPES = %w{ ' ! * ) }
     
     attr_accessor :utmwv, :utmn, :utmhn, :utmcs, :utmul, :utmdt, :utmp, :utmac, :utmt, :utmcc, :user_agent
     
@@ -28,15 +35,48 @@ module Gabba
       @utmac = ga_acct
       @utmhn = domain
       @user_agent = agent
+
+      @custom_vars = []
     end
   
+    def set_custom_var(index, name, value, scope)
+      raise "Index must be between 1 and 5" unless (1..5).include?(index)
+      raise "Scope must be 1 (VISITOR), 2 (SESSION) or 3 (PAGE)" unless (1..3).include?(scope)
+      
+      @custom_vars[index] = [ name, value, scope ]
+    end
+    
+    def delete_custom_var(index)
+      raise "Index must be between 1 and 5" unless (1..5).include?(index)
+
+      @custom_vars.delete_at(index)
+    end
+    
+    def custom_var_data
+      names  = []
+      values = []
+      scopes = []
+      
+      idx = 1
+      @custom_vars.each_with_index do |(n, v, s), i|
+        next if !n || !v || (/\w/ !~ n) || (/\w/ !~ v)
+        prefix = "#{i}!" if idx != i
+        names  << "#{prefix}#{escape(n)}"
+        values << "#{prefix}#{escape(v)}"
+        scopes << "#{prefix}#{escape(s)}"
+        idx = i + 1
+      end
+      
+      names.empty? ? "" : "8(#{names.join('*')})9(#{values.join('*')})11(#{scopes.join('*')})"
+    end
+    
     def page_view(title, page, utmhid = random_id)
       check_account_params
       hey(page_view_params(title, page, utmhid))
     end
 
     def page_view_params(title, page, utmhid = random_id)
-      {
+      options = {
         :utmwv => @utmwv,
         :utmn => @utmn,
         :utmhn => @utmhn,
@@ -48,6 +88,12 @@ module Gabba
         :utmac => @utmac,
         :utmcc => @utmcc || cookie_params
       }
+
+      # Add custom vars if present
+      cvd = custom_var_data
+      options[:utme] = cvd if /\w/ =~ cvd
+
+      options
     end
   
     def event(category, action, label = nil, value = nil, utmhid = random_id)
@@ -61,7 +107,7 @@ module Gabba
         :utmn => @utmn,
         :utmhn => @utmhn,
         :utmt => 'event',
-        :utme => event_data(category, action, label, value),
+        :utme => "#{event_data(category, action, label, value)}#{custom_var_data}",
         :utmcs => @utmcs,
         :utmul => @utmul,
         :utmhid => utmhid,
@@ -171,6 +217,14 @@ module Gabba
       rand 8999999999 + 1000000000
     end
         
+    def escape(t)
+      return t if !t || (/\w/ !~ t.to_s)
+      
+      URI.escape(t.to_s).gsub(/[\*'!\)]/) do |m|
+        "'#{ESCAPES.index(m)}" 
+      end
+    end
+    
   end # Gabba Class
 
 end
