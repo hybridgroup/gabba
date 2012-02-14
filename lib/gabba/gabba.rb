@@ -50,16 +50,18 @@ module Gabba
       }
     end
   
-    def event(category, action, label = nil, value = nil, utmhid = random_id)
+    def event(category, action, label = nil, value = nil, utmni = false, utmhid = random_id)
       check_account_params
-      hey(event_params(category, action, label, value, utmhid))
+      hey(event_params(category, action, label, value, utmni, utmhid))
     end
 
-    def event_params(category, action, label = nil, value = nil, utmhid = nil)
+    def event_params(category, action, label = nil, value = nil, utmni = false, utmhid = false)
+      raise ArgumentError.new("utmni must be a boolean") if (utmni.class != TrueClass && utmni.class != FalseClass)
       {
         :utmwv => @utmwv,
         :utmn => @utmn,
         :utmhn => @utmhn,
+        :utmni => (1 if utmni), # 1 for non interactive event, excluded from bounce calcs
         :utmt => 'event',
         :utme => event_data(category, action, label, value),
         :utmcs => @utmcs,

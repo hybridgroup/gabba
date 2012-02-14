@@ -32,7 +32,7 @@ describe Gabba::Gabba do
       @gabba = Gabba::Gabba.new("abc", "123")
       @gabba.utmn = "1009731272"
       @gabba.utmcc = ''
-      stub_analytics @gabba.event_params("cat1", "act1", "lab1", "val1", "6783939397")
+      stub_analytics @gabba.event_params("cat1", "act1", "lab1", "val1", false, "6783939397")
     end
     
     it "must require GA account" do
@@ -52,7 +52,11 @@ describe Gabba::Gabba do
     end
     
     it "must do event request to google" do
-      @gabba.event("cat1", "act1", "lab1", "val1", "6783939397").code.must_equal("200")
+      @gabba.event("cat1", "act1", "lab1", "val1", false, "6783939397").code.must_equal("200")
+    end
+
+    it "must be able to send non interactive events" do
+      @gabba.event("cat1", "act1", "lab1", "val1", true).code.must_equal("200")
     end
 
   end
