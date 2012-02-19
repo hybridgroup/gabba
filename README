@@ -10,3 +10,5 @@ Gabba::Gabba.new("UT-1234", "mydomain.com").page_view("something", "track/me")
 - Track custom events
 Gabba::Gabba.new("UT-1234", "mydomain.com").event("Videos", "Play", "ID", "123")
 
+- Track a non-interactive custom event
+Gabba::Gabba.new("UT-1234", "mydomain.com").event("Videos", "Play", "ID", "123", true)
