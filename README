@@ -18,16 +18,16 @@ HOW TO USE:
 
         # Index: 1 through 5
         index = 1
-        
+
         # Scope: VISITOR, SESSION or PAGE
         scope = Gabba::Gabba::VISITOR
-        
+
         # Set var
         gabba.set_custom_var(index, 'Name', 'Value', scope)
-        
+
         # Track the event (all vars will be included)
         gabba.event(...)
-        
+
         # Track the page view (all vars will be included)
         gabba.page_view(...)
 
@@ -38,4 +38,9 @@ HOW TO USE:
 
         # Delete var with this index
         gabba.delete_custom_var index- Track a non-interactive custom event
+
+* Track ecommerce transactions
+
+        g = Gabba::Gabba.new("UT-6666", "myawesomeshop.net")
+        g.transaction("123456789", "1000.00", 'Acme Clothing', '1.29', '5.00', 'Los Angeles', 'California', 'USA')
 
