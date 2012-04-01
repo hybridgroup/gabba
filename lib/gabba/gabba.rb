@@ -150,9 +150,9 @@ module Gabba
     # Public: Record an event in Google Analytics
     # (http://code.google.com/apis/analytics/docs/gaJS/gaJSApiEventTracking.html)
     #
-    # category  - 
-    # action    - 
-    # label     - 
+    # category  -
+    # action    -
+    # label     -
     # value     -
     # utmni     -
     # utmhid    -
@@ -279,9 +279,25 @@ module Gabba
       }
     end
 
+    # Public: provide the user's __utma attribute from analytics cookie, allowing
+    # better tracking of user flows
+    #
+    # Called before page_view etc
+    #
+    # Examples:
+    #   g = Gabba::Gabba.new("UT-1234", "mydomain.com")
+    #   g.identify_user(cookies[:__utma])
+    #   g.page_view("something", "track/me")
+    #
+    def identify_user(utma)
+      @utma = utma
+    end
+
     # create magical cookie params used by GA for its own nefarious purposes
     def cookie_params(utma1 = random_id, utma2 = rand(1147483647) + 1000000000, today = Time.now)
-      "__utma=1.#{utma1}00145214523.#{utma2}.#{today.to_i}.#{today.to_i}.15;+__utmz=1.#{today.to_i}.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none);"
+      utma = @utma
+      utma ||= "1.#{utma1}00145214523.#{utma2}.#{today.to_i}.#{today.to_i}.15"
+      "__utma=#{utma};+__utmz=1.#{today.to_i}.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none);"
     end
 
     # sanity check that we have needed params to even call GA
@@ -313,7 +329,7 @@ module Gabba
       return t if !t || (/\w/ !~ t.to_s)
 
       t.to_s.gsub(/[\*'!\)]/) do |m|
-        "'#{ESCAPES.index(m)}" 
+        "'#{ESCAPES.index(m)}"
       end
     end
 

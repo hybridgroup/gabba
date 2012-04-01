@@ -14,6 +14,16 @@ HOW TO USE:
 
         Gabba::Gabba.new("UT-1234", "mydomain.com").event("Videos", "Play", "ID", "123", true)
 
+* Works with existing client-side Google Analytics cookies
+
+        gabba = Gabba::Gabba.new("UT-1234", "mydomain.com")
+
+        # grab the __utma unique identifier
+        gabba.identify_user(cookies[:__utma])
+
+        # trigger actions as normal
+        gabba.page_view("something", "track/me")
+
 * Setting custom vars
 
         # Index: 1 through 5
