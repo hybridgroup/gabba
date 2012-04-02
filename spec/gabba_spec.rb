@@ -111,7 +111,7 @@ describe Gabba::Gabba do
     end
     it "must use the supplied utma in cookie_params" do
       # This is how the Google cookie is named
-      cookies = { __utma: "long_code"}
+      cookies = { :__utma => "long_code"}
       @gabba.identify_user(cookies[:__utma])
       @gabba.cookie_params.must_match /utma=long_code;/
     end
