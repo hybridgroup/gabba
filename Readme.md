@@ -56,7 +56,7 @@ gabba.page_view(...)
 index = 1
 
 # Delete var with this index
-gabba.delete_custom_var index- Track a non-interactive custom event
+gabba.delete_custom_var index
 ```
 
 ### Track ecommerce transactions
