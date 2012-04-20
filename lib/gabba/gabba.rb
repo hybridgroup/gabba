@@ -22,7 +22,7 @@ module Gabba
 
     ESCAPES = %w{ ' ! * ) }
 
-    attr_accessor :utmwv, :utmn, :utmhn, :utmcs, :utmul, :utmdt, :utmp, :utmac, :utmt, :utmcc, :user_agent
+    attr_accessor :utmwv, :utmn, :utmhn, :utmcs, :utmul, :utmdt, :utmp, :utmac, :utmt, :utmcc, :user_agent, :utma
 
     # Public: Initialize Gabba Google Analytics Tracking Object.
     #
@@ -295,9 +295,8 @@ module Gabba
 
     # create magical cookie params used by GA for its own nefarious purposes
     def cookie_params(utma1 = random_id, utma2 = rand(1147483647) + 1000000000, today = Time.now)
-      utma = @utma
-      utma ||= "1.#{utma1}00145214523.#{utma2}.#{today.to_i}.#{today.to_i}.15"
-      "__utma=#{utma};+__utmz=1.#{today.to_i}.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none);"
+      @utma ||= "1.#{utma1}00145214523.#{utma2}.#{today.to_i}.#{today.to_i}.15"
+      "__utma=#{@utma};+__utmz=1.#{today.to_i}.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none);"
     end
 
     # sanity check that we have needed params to even call GA
