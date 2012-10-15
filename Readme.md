@@ -23,8 +23,8 @@ Gabba::Gabba.new("UT-1234", "mydomain.com").event("Videos", "Play", "ID", "123",
 ```ruby
 gabba = Gabba::Gabba.new("UT-1234", "mydomain.com")
 
-# grab the __utma unique identifier
-gabba.identify_user(cookies[:__utma])
+# grab the __utma and (optionally) __utmz unique identifiers
+gabba.identify_user(cookies[:__utma], cookies[:__utmz])
 
 # trigger actions as normal
 gabba.page_view("something", "track/me")

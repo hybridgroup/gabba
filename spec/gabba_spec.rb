@@ -113,7 +113,14 @@ describe Gabba::Gabba do
       # This is how the Google cookie is named
       cookies = { :__utma => "long_code"}
       @gabba.identify_user(cookies[:__utma])
-      @gabba.cookie_params.must_match /utma=long_code;/
+      @gabba.cookie_params.must_match(/utma=long_code;/)
+      @gabba.cookie_params.must_match(/utmz=.*direct.*;/)
+    end
+    it "must use the optionally supplied utmz in cookie_params" do
+      cookies = { :__utma => "long_code", :__utmz => "utmz_code" }
+      @gabba.identify_user(cookies[:__utma], cookies[:__utmz])
+      @gabba.cookie_params.must_match(/utma=long_code;/)
+      @gabba.cookie_params.must_match(/utmz=utmz_code;/)
     end
   end
 

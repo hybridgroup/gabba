@@ -22,7 +22,7 @@ module Gabba
 
     ESCAPES = %w{ ' ! * ) }
 
-    attr_accessor :utmwv, :utmn, :utmhn, :utmcs, :utmul, :utmdt, :utmp, :utmac, :utmt, :utmcc, :user_agent, :utma
+    attr_accessor :utmwv, :utmn, :utmhn, :utmcs, :utmul, :utmdt, :utmp, :utmac, :utmt, :utmcc, :user_agent, :utma, :utmz
 
     # Public: Initialize Gabba Google Analytics Tracking Object.
     #
@@ -279,24 +279,26 @@ module Gabba
       }
     end
 
-    # Public: provide the user's __utma attribute from analytics cookie, allowing
+    # Public: provide the user's __utma and __utmz attributes from analytics cookie, allowing
     # better tracking of user flows
     #
     # Called before page_view etc
     #
     # Examples:
     #   g = Gabba::Gabba.new("UT-1234", "mydomain.com")
-    #   g.identify_user(cookies[:__utma])
+    #   g.identify_user(cookies[:__utma], cookies[:__utmz])
     #   g.page_view("something", "track/me")
     #
-    def identify_user(utma)
+    def identify_user(utma, utmz=nil)
       @utma = utma
+      @utmz = utmz
     end
 
     # create magical cookie params used by GA for its own nefarious purposes
     def cookie_params(utma1 = random_id, utma2 = rand(1147483647) + 1000000000, today = Time.now)
       @utma ||= "1.#{utma1}00145214523.#{utma2}.#{today.to_i}.#{today.to_i}.15"
-      "__utma=#{@utma};+__utmz=1.#{today.to_i}.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none);"
+      @utmz ||= "1.#{today.to_i}.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)"
+      "__utma=#{@utma};+__utmz=#{@utmz};"
     end
 
     # sanity check that we have needed params to even call GA
