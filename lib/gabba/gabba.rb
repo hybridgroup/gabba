@@ -53,7 +53,7 @@ module Gabba
     # Public: Set a custom variable to be passed along and logged by Google Analytics
     # (http://code.google.com/apis/analytics/docs/tracking/gaTrackingCustomVariables.html)
     #
-    # index  - Integer between 1 and 5 for this custom variable
+    # index  - Integer between 1 and 50 for this custom variable (limit is 5 normally, but is 50 for GA Premium)
     # name   - String with the name of the custom variable
     # value  - String with the value for teh custom variable
     # scope  - Integer with custom variable scope must be 1 (VISITOR), 2 (SESSION) or 3 (PAGE)
@@ -66,7 +66,7 @@ module Gabba
     #
     # Returns array with the custom variable data
     def set_custom_var(index, name, value, scope)
-      raise "Index must be between 1 and 5" unless (1..5).include?(index)
+      raise "Index must be between 1 and 50" unless (1..50).include?(index)
       raise "Scope must be 1 (VISITOR), 2 (SESSION) or 3 (PAGE)" unless (1..3).include?(scope)
 
       @custom_vars[index] = [ name, value, scope ]

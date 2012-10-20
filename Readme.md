@@ -33,7 +33,7 @@ gabba.page_view("something", "track/me")
 ### Setting custom vars
 
 ```ruby
-# Index: 1 through 5
+# Index: 1 through 50
 index = 1
 
 # Scope: VISITOR, SESSION or PAGE
@@ -52,7 +52,7 @@ gabba.page_view(...)
 ### Removing custom vars
 
 ```ruby
-# Index: 1 through 5
+# Index: 1 through 50
 index = 1
 
 # Delete var with this index

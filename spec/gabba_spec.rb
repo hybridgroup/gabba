@@ -160,9 +160,9 @@ describe Gabba::Gabba do
       @gabba.custom_var_data.must_equal "8(2!A*4!D)9(2!Y*4!N)11(2!2*4!1)"
     end
 
-    it "must raise an error if index is outside the 1-5 (incl) range" do
+    it "must raise an error if index is outside the 1-50 (incl) range" do
       lambda { @gabba.set_custom_var(0, 'A', 'B', 1) }.must_raise(RuntimeError)
-      lambda { @gabba.set_custom_var(6, 'A', 'B', 1) }.must_raise(RuntimeError)
+      lambda { @gabba.set_custom_var(51, 'A', 'B', 1) }.must_raise(RuntimeError)
     end
 
     it "must raise an error if scope is outside the 1-3 (incl) range" do
