@@ -298,7 +298,7 @@ module Gabba
       self
     end
 
-    # Public: provide the referer attribute, allowing for referral tracking
+    # Public: provide the utmr attribute, allowing for referral tracking
     #
     # Called before page_view etc
     #
@@ -312,7 +312,7 @@ module Gabba
       self
     end
 
-    # Public: provide the referer attribute, allowing for IP address tracking
+    # Public: provide the utmip attribute, allowing for IP address tracking
     #
     # Called before page_view etc
     #
