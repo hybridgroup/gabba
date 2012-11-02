@@ -46,7 +46,7 @@ module Gabba
 
       @utmac = ga_acct
       @utmhn = domain
-      @user_agent = agent
+      @user_agent = agent || Gabba::USER_AGENT
 
       @custom_vars = []
     end
