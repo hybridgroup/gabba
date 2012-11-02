@@ -1,6 +1,7 @@
 # yo, easy server-side tracking for Google Analytics... hey!
-require "uri"
-require "net/http"
+require 'uri'
+require 'net/http'
+require 'ipaddr'
 require 'cgi'
 require File.dirname(__FILE__) + '/version'
 
@@ -22,7 +23,7 @@ module Gabba
 
     ESCAPES = %w{ ' ! * ) }
 
-    attr_accessor :utmwv, :utmn, :utmhn, :utmcs, :utmul, :utmdt, :utmp, :utmac, :utmt, :utmcc, :user_agent, :utma, :utmz
+    attr_accessor :utmwv, :utmn, :utmhn, :utmcs, :utmul, :utmdt, :utmp, :utmac, :utmt, :utmcc, :user_agent, :utma, :utmz, :utmr, :utmip
 
     # Public: Initialize Gabba Google Analytics Tracking Object.
     #
@@ -137,7 +138,9 @@ module Gabba
         :utmhid => utmhid,
         :utmp => page,
         :utmac => @utmac,
-        :utmcc => @utmcc || cookie_params
+        :utmcc => @utmcc || cookie_params,
+        :utmr => @utmr,
+        :utmip => @utmip
       }
 
       # Add custom vars if present
@@ -292,6 +295,35 @@ module Gabba
     def identify_user(utma, utmz=nil)
       @utma = utma
       @utmz = utmz
+      self
+    end
+
+    # Public: provide the referer attribute, allowing for referral tracking
+    #
+    # Called before page_view etc
+    #
+    # Examples:
+    #   g = Gabba::Gabba.new("UT-1234", "mydomain.com")
+    #   g.referer(request.env['HTTP_REFERER'])
+    #   g.page_view("something", "track/me")
+    #
+    def referer(utmr)
+      @utmr = utmr
+      self
+    end
+
+    # Public: provide the referer attribute, allowing for IP address tracking
+    #
+    # Called before page_view etc
+    #
+    # Examples:
+    #   g = Gabba::Gabba.new("UT-1234", "mydomain.com")
+    #   g.ip(request.env["REMOTE_ADDR"])
+    #   g.page_view("something", "track/me")
+    #
+    def ip(utmip)
+      @utmip = ::IPAddr.new(utmip).mask(24).to_s
+      self
     end
 
     # create magical cookie params used by GA for its own nefarious purposes
