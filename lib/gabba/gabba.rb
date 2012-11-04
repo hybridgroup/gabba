@@ -46,7 +46,7 @@ module Gabba
 
       @utmac = ga_acct
       @utmhn = domain
-      @user_agent = agent || Gabba::USER_AGENT
+      @user_agent =  (agent && agent.length > 0) ? agent : Gabba::USER_AGENT
 
       @custom_vars = []
     end
@@ -185,7 +185,9 @@ module Gabba
         :utmul => @utmul,
         :utmhid => utmhid,
         :utmac => @utmac,
-        :utmcc => @utmcc || cookie_params
+        :utmcc => @utmcc || cookie_params,
+        :utmr => @utmr,
+        :utmip => @utmip
       }
     end
 
@@ -243,7 +245,9 @@ module Gabba
         :utmtsp => shipping,
         :utmtci => city,
         :utmtrg => region,
-        :utmtco => country
+        :utmtco => country,
+        :utmr => @utmr,
+        :utmip => @utmip
       }
     end
 
@@ -278,7 +282,9 @@ module Gabba
         :utmipn => name,
         :utmiva => category,
         :utmipr => price,
-        :utmiqt => quantity
+        :utmiqt => quantity,
+        :utmr => @utmr,
+        :utmip => @utmip
       }
     end
 

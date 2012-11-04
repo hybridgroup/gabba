@@ -25,6 +25,18 @@ describe Gabba::Gabba do
     it "must do page view request to google" do
       @gabba.page_view("title", "/page/path", "6783939397").code.must_equal("200")
     end
+
+    it "should use Gabba user agent if none is specified" do
+      @gabba.user_agent.must_equal(Gabba::Gabba::USER_AGENT)
+    end
+
+    it "should use Gabba user agent if nil is specified" do
+      Gabba::Gabba.new("abc","123",nil).user_agent.must_equal(Gabba::Gabba::USER_AGENT)
+    end
+
+    it "should use Gabba user agent if blank is specified" do
+      Gabba::Gabba.new("abc","123","").user_agent.must_equal(Gabba::Gabba::USER_AGENT)
+    end
   end
 
   describe "when tracking custom events" do
@@ -121,6 +133,47 @@ describe Gabba::Gabba do
       @gabba.identify_user(cookies[:__utma], cookies[:__utmz])
       @gabba.cookie_params.must_match(/utma=long_code;/)
       @gabba.cookie_params.must_match(/utmz=utmz_code;/)
+    end
+  end
+
+  describe "when using referer" do
+    referer = "http://www.someurl.com/blah/blah"
+    before do
+      @gabba = Gabba::Gabba.new("abc", "123")
+      @gabba.referer(referer)
+    end
+    it "must use the specified referer in page_view_params" do
+      @gabba.page_view_params("whocares","doesntmatter")[:utmr].must_equal(referer)
+    end
+    it "must use the specified referer in event_params" do
+      @gabba.event_params("whocares","doesntmatter")[:utmr].must_equal(referer)
+    end
+    it "must use the specified referer in transaction_params" do
+      @gabba.transaction_params('order_id', 'total', 'store_name', 'tax', 'shipping', 'city', 'region', 'country', 'utmhid')[:utmr].must_equal(referer)
+    end
+    it "must use the specified referer in item_params" do
+      @gabba.item_params('order_id', 'item_sku', 'name', 'category', 'price', 'quantity', 'utmhid')[:utmr].must_equal(referer)
+    end
+  end
+
+  describe "when using ip" do
+    ip = "123.123.123.123"
+    masked_ip = "123.123.123.0"
+    before do
+      @gabba = Gabba::Gabba.new("abc", "123")
+      @gabba.ip(ip)
+    end
+    it "must use the specified referer in page_view_params" do
+      @gabba.page_view_params("whocares","doesntmatter")[:utmip].must_equal(masked_ip)
+    end
+    it "must use the specified referer in event_params" do
+      @gabba.event_params("whocares","doesntmatter")[:utmip].must_equal(masked_ip)
+    end
+    it "must use the specified referer in transaction_params" do
+      @gabba.transaction_params('order_id', 'total', 'store_name', 'tax', 'shipping', 'city', 'region', 'country', 'utmhid')[:utmip].must_equal(masked_ip)
+    end
+    it "must use the specified referer in item_params" do
+      @gabba.item_params('order_id', 'item_sku', 'name', 'category', 'price', 'quantity', 'utmhid')[:utmip].must_equal(masked_ip)
     end
   end
 
