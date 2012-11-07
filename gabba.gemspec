@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Ron Evans"]
   s.email       = ["ron dot evans at gmail dot com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/hybridgroup/gabba"
   s.summary     = %q{Easy server-side tracking for Google Analytics}
   s.description = %q{Easy server-side tracking for Google Analytics}
 
