@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gabba (1.0.0)
+    gabba (1.0.1)
 
 GEM
   remote: http://rubygems.org/
