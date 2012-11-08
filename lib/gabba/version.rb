@@ -1,5 +1,5 @@
 module Gabba
   unless const_defined?('VERSION')
-    VERSION = "0.4.2"
+    VERSION = "1.0.0"
   end
 end
