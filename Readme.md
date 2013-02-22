@@ -65,3 +65,8 @@ gabba.delete_custom_var index
 g = Gabba::Gabba.new("UT-6666", "myawesomeshop.net")
 g.transaction("123456789", "1000.00", 'Acme Clothing', '1.29', '5.00', 'Los Angeles', 'California', 'USA')
 ```
+
+### License
+
+Gabba is released under the [MIT License](http://opensource.org/licenses/MIT).
+
