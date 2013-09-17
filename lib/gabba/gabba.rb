@@ -375,3 +375,6 @@ module Gabba
   end # Gabba Class
 
 end
+
+# Allow for Yo::Gabba::Gabba
+module Yo ; Gabba = ::Gabba ; end
