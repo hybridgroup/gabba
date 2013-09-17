@@ -238,6 +238,16 @@ describe Gabba::Gabba do
     end
   end
 
+  describe 'Yo::Gabba::Gabba' do
+    before do
+      @gabba = Yo::Gabba::Gabba.new('abc', '123')
+    end
+
+    it 'must be aliased to Gabba::Gabba' do
+      @gabba.must_be_instance_of Gabba::Gabba
+    end
+  end
+
   def stub_analytics(expected_params)
     s = stub_request(:get, /www.google-analytics.com\/__utm.gif\?utmac=#{expected_params[:utmac]}&.*/).
           to_return(:status => 200, :body => "", :headers => {})
