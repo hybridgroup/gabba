@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "gabba/version"
+require File.expand_path '../lib/gabba/version', __FILE__
 
 Gem::Specification.new do |s|
   s.name        = "gabba"
@@ -18,4 +17,8 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
+
+  s.add_development_dependency 'rake', '~> 10.1.0'
+  s.add_development_dependency 'minitest', '~> 5.0.7'
+  s.add_development_dependency 'webmock', '~> 1.13.0'
 end

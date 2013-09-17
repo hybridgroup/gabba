@@ -4,21 +4,23 @@ PATH
     gabba (1.0.1)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
-    addressable (2.2.2)
-    crack (0.1.8)
-    minitest (2.0.0)
-    rake (0.9.2.2)
-    webmock (1.6.1)
-      addressable (>= 2.2.2)
-      crack (>= 0.1.7)
+    addressable (2.3.5)
+    crack (0.4.1)
+      safe_yaml (~> 0.9.0)
+    minitest (5.0.7)
+    rake (10.1.0)
+    safe_yaml (0.9.7)
+    webmock (1.13.0)
+      addressable (>= 2.2.7)
+      crack (>= 0.3.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   gabba!
-  minitest
-  rake
-  webmock
+  minitest (~> 5.0.7)
+  rake (~> 10.1.0)
+  webmock (~> 1.13.0)
