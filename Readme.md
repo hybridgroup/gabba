@@ -1,8 +1,10 @@
 # Gabba
 
+[![Build Status](https://travis-ci.org/hybridgroup/gabba.png)](https://travis-ci.org/hybridgroup/gabba)
+
 Simple class to send custom server-side events to Google Analytics
 
-Heavily influenced by the http://code.google.com/p/serversidegoogleanalytics
+Heavily influenced by the [serversidegoogleanalytics][] project.
 
 ## Examples
 
@@ -70,3 +72,5 @@ g.transaction("123456789", "1000.00", 'Acme Clothing', '1.29', '5.00', 'Los Ange
 
 Gabba is released under the [MIT License](http://opensource.org/licenses/MIT).
 
+
+[serversidegoogleanalytics]: http://code.google.com/p/serversidegoogleanalytics
