@@ -349,13 +349,13 @@ module Gabba
     def hey(params)
       query = params.map {|k,v| "#{k}=#{URI.escape(v.to_s, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))}" }.join('&')
 
-      @@http ||= Net::HTTP::Persistent.new 'Gabba'
+      @http ||= Net::HTTP::Persistent.new 'Gabba'
 
       request = Net::HTTP::Get.new("#{BEACON_PATH}?#{query}")
       request["User-Agent"] = URI.escape(user_agent)
       request["Accept"] = "*/*"
       uri = URI "http://#{GOOGLE_HOST}/#{BEACON_PATH}"
-      response = @@http.request(uri, request)
+      response = @http.request(uri, request)
 
       raise GoogleAnalyticsNetworkError unless response.code == "200"
       response
