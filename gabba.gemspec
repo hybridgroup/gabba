@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/hybridgroup/gabba"
   s.summary     = %q{Easy server-side tracking for Google Analytics}
   s.description = %q{Easy server-side tracking for Google Analytics}
+  s.license = "MIT"
 
   s.rubyforge_project = "gabba"
 
