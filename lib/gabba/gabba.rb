@@ -3,7 +3,7 @@ require 'uri'
 require 'net/http'
 require 'ipaddr'
 require 'cgi'
-require File.dirname(__FILE__) + '/version'
+require 'net/http/persistent'
 
 module Gabba
 
@@ -349,12 +349,13 @@ module Gabba
     def hey(params)
       query = params.map {|k,v| "#{k}=#{URI.escape(v.to_s, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))}" }.join('&')
 
-      response = Net::HTTP.start(GOOGLE_HOST) do |http|
-        request = Net::HTTP::Get.new("#{BEACON_PATH}?#{query}")
-        request["User-Agent"] = URI.escape(user_agent)
-        request["Accept"] = "*/*"
-        http.request(request)
-      end
+      @http ||= Net::HTTP::Persistent.new 'Gabba'
+
+      request = Net::HTTP::Get.new("#{BEACON_PATH}?#{query}")
+      request["User-Agent"] = URI.escape(user_agent)
+      request["Accept"] = "*/*"
+      uri = URI "http://#{GOOGLE_HOST}/#{BEACON_PATH}"
+      response = @http.request(uri, request)
 
       raise GoogleAnalyticsNetworkError unless response.code == "200"
       response

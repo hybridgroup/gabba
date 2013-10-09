@@ -1,1 +1,2 @@
-require File.dirname(__FILE__) + '/gabba/gabba.rb'
+require 'gabba/gabba'
+require 'gabba/version'
