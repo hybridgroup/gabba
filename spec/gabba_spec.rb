@@ -1,7 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/spec_helper")
 
 describe Gabba::Gabba do
-
   describe "when tracking page views" do
     before do
       @gabba = Gabba::Gabba.new("abc", "123")
@@ -235,6 +234,12 @@ describe Gabba::Gabba do
       @gabba.set_custom_var 1, 'A (B*\'!)', 'Yes', Gabba::Gabba::SESSION
       @gabba.delete_custom_var 1
       @gabba.custom_var_data.must_equal ""
+    end
+  end
+
+  describe "USER_AGENT" do
+    it "contains the current Gabba version" do
+      Gabba::Gabba::USER_AGENT.must_equal "Gabba #{Gabba::VERSION} Agent"
     end
   end
 
