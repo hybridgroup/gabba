@@ -1,2 +1,2 @@
-require 'gabba/gabba'
 require 'gabba/version'
+require 'gabba/gabba'
