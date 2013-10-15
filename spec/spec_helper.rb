@@ -1,8 +1,7 @@
 require 'gabba'
-require 'minitest/autorun'
-require 'minitest/pride'
+require 'rspec'
 
-require 'webmock/minitest'
+require 'webmock/rspec'
 WebMock.disable_net_connect!
 
 def stub_analytics(expected_params)

@@ -21,6 +21,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'net-http-persistent', '~> 2.9'
   s.add_development_dependency 'rake', '~> 10.1.0'
-  s.add_development_dependency 'minitest', '~> 5.0.7'
+  s.add_development_dependency 'rspec', '~> 2.14.1'
   s.add_development_dependency 'webmock', '~> 1.13.0'
 end
