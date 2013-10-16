@@ -10,6 +10,7 @@ require "#{File.dirname(__FILE__)}/event"
 require "#{File.dirname(__FILE__)}/item"
 require "#{File.dirname(__FILE__)}/page_view"
 require "#{File.dirname(__FILE__)}/transaction"
+require "#{File.dirname(__FILE__)}/version"
 
 module Gabba
 
