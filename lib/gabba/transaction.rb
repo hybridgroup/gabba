@@ -50,7 +50,7 @@ module Gabba
           :utmtco => country,
           :utmr => @utmr,
           :utmip => @utmip,
-          :utme => self.custom_var_data #for sending custom vars to google analytics
+          :utme => self.custom_var_data 
         }
       end
     end
