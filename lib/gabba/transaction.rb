@@ -49,7 +49,8 @@ module Gabba
           :utmtrg => region,
           :utmtco => country,
           :utmr => @utmr,
-          :utmip => @utmip
+          :utmip => @utmip,
+          :utme => self.custom_var_data 
         }
       end
     end
