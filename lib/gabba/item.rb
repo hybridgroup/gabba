@@ -34,7 +34,8 @@ module Gabba
           :utmipr => price,
           :utmiqt => quantity,
           :utmr => @utmr,
-          :utmip => @utmip
+          :utmip => @utmip,
+          :utme => self.custom_var_data 
         }
       end
     end
