@@ -38,7 +38,8 @@ module Gabba
           :utmac => @utmac,
           :utmcc => @utmcc || cookie_params,
           :utmr => @utmr,
-          :utmip => @utmip
+          :utmip => @utmip,
+          :utme => self.custom_var_data
         }
       end
 
